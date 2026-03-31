@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stream URL Encoder</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #1d2a3a;
+      --muted: #607086;
+      --line: #d7e0ea;
+      --brand: #0f766e;
+      --brand-dark: #0c5a54;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      padding: 1.5rem;
+    }
+
+    .wrap {
+      max-width: 760px;
+      margin: 0 auto;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+
+    h1 {
+      margin: 0 0 0.5rem;
+      font-size: 1.4rem;
+    }
+
+    p {
+      margin: 0 0 1rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    label {
+      display: block;
+      font-weight: 700;
+      margin: 0.9rem 0 0.4rem;
+      font-size: 0.92rem;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 84px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0.7rem;
+      font-family: Consolas, monospace;
+      font-size: 0.9rem;
+    }
+
+    .row {
+      display: flex;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-top: 0.9rem;
+    }
+
+    button {
+      border: 1px solid var(--brand);
+      background: var(--brand);
+      color: #fff;
+      border-radius: 999px;
+      padding: 0.55rem 1rem;
+      cursor: pointer;
+      font-weight: 700;
+    }
+
+    button.secondary {
+      background: #fff;
+      color: var(--brand-dark);
+    }
+
+    .hint {
+      font-size: 0.82rem;
+      color: var(--muted);
+      margin-top: 0.55rem;
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <h1>Stream URL coderen</h1>
+    <p>Plak je stream-link, klik op Coderen en kopieer daarna het JSON-veld naar concerts.json.</p>
+
+    <label for="plain-url">Originele stream URL</label>
+    <textarea id="plain-url" placeholder="https://voorbeeld.nl/stream/embed?token=..."></textarea>
+
+    <div class="row">
+      <button id="encode-btn" type="button">Coderen</button>
+      <button id="copy-btn" type="button" class="secondary">Kopieer JSON-veld</button>
+    </div>
+
+    <label for="encoded-url">Base64-uitvoer</label>
+    <textarea id="encoded-url" readonly></textarea>
+
+    <label for="json-snippet">JSON snippet</label>
+    <textarea id="json-snippet" readonly></textarea>
+
+    <p class="hint">Gebruik in concerts.json bij voorkeur: "stream_url_encoded": "...". De site ondersteunt ook nog "stream_url" als fallback.</p>
+  </main>
+
+  <script>
+    const plain = document.getElementById('plain-url');
+    const encoded = document.getElementById('encoded-url');
+    const snippet = document.getElementById('json-snippet');
+    const encodeBtn = document.getElementById('encode-btn');
+    const copyBtn = document.getElementById('copy-btn');
+
+    function encodeUrl() {
+      const value = plain.value.trim();
+      if (!value) {
+        encoded.value = '';
+        snippet.value = '';
+        return;
+      }
+
+      const b64 = btoa(value);
+      encoded.value = b64;
+      snippet.value = `"stream_url_encoded": "${b64}"`;
+    }
+
+    encodeBtn.addEventListener('click', encodeUrl);
+
+    copyBtn.addEventListener('click', async () => {
+      if (!snippet.value.trim()) return;
+      try {
+        await navigator.clipboard.writeText(snippet.value);
+        copyBtn.textContent = 'Gekopieerd';
+        setTimeout(() => { copyBtn.textContent = 'Kopieer JSON-veld'; }, 1200);
+      } catch (e) {
+        alert('Kopieren niet gelukt. Kopieer handmatig uit het vak.');
+      }
+    });
+  </script>
+</body>
+</html>

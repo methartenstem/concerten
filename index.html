@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Met Hart en Stem, Veenendaal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --ink: #142033;
+      --ink-soft: #3d4a5f;
+      --surface: #ffffff;
+      --surface-alt: #f6f8fb;
+      --line: #d8e0ea;
+      --brand: #0f766e;
+      --brand-deep: #0b5252;
+      --accent: #e8b949;
+      --danger: #dc4b4b;
+      --shadow: 0 14px 38px rgba(20, 32, 51, 0.12);
+      --radius: 16px;
+      --content-max: 1120px;
+
+
+      --bg-photo: url('https://images.unsplash.com/photo-1465847899084-d164df4dedc6?auto=format&fit=crop&w=2200&q=80');
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      color: var(--ink);
+      font-family: 'Manrope', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      background:
+        linear-gradient(180deg, rgba(249, 252, 255, 0.9), rgba(241, 245, 250, 0.92)),
+        radial-gradient(1000px 500px at 20% -15%, rgba(15, 118, 110, 0.12), transparent 60%),
+        radial-gradient(850px 480px at 100% 0%, rgba(232, 185, 73, 0.14), transparent 58%),
+        var(--bg-photo);
+      background-size: auto, auto, auto, cover;
+      background-position: center, center, center, center;
+      background-attachment: scroll, scroll, scroll, fixed;
+    }
+
+    .top-band {
+      height: 3px;
+      background: linear-gradient(90deg, #0f766e 0%, #e8b949 50%, #0f766e 100%);
+    }
+
+    header {
+      text-align: center;
+      width: min(var(--content-max), calc(100% - 2rem));
+      margin: 0.8rem auto 0.3rem;
+      padding: 1.15rem 1.25rem 1rem;
+      position: relative;
+      border: 1px solid rgba(182, 198, 218, 0.65);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.78);
+      backdrop-filter: blur(4px);
+      box-shadow: 0 10px 28px rgba(20, 32, 51, 0.08);
+    }
+    header::after {
+      content: '';
+      display: block;
+      width: 88px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, rgba(15, 118, 110, 0.7), transparent);
+      margin: 0.8rem auto 0;
+    }
+    .subtitle {
+      font-size: 0.66rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--brand);
+      margin-bottom: 0.42rem;
+    }
+    h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(1.9rem, 5vw, 2.9rem);
+      font-weight: 700;
+      color: #0f1f36;
+      line-height: 0.96;
+      letter-spacing: 0.01em;
+    }
+    .church-name {
+      font-family: 'Fraunces', serif;
+      font-size: 0.92rem;
+      color: var(--ink-soft);
+      margin-top: 0.28rem;
+    }
+
+    main {
+      width: 100%;
+      flex: 1;
+      max-width: var(--content-max);
+      margin: 0 auto;
+      padding: 0.35rem 1.25rem 2rem;
+    }
+
+    #live-section,
+    #agenda-section {
+      display: none;
+      animation: reveal 0.55s ease-out;
+    }
+
+    @keyframes reveal {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .concert-banner {
+      background: linear-gradient(120deg, var(--brand-deep), var(--brand));
+      color: #f6fffe;
+      border-radius: var(--radius) var(--radius) 0 0;
+      padding: 1rem 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      border: 1px solid rgba(15, 118, 110, 0.24);
+      border-bottom: none;
+    }
+    .live-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--danger);
+      box-shadow: 0 0 0 0 rgba(220, 75, 75, 0.6);
+      flex-shrink: 0;
+      animation: pulse 1.8s infinite;
+    }
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(220, 75, 75, 0.6); }
+      70% { box-shadow: 0 0 0 11px rgba(220, 75, 75, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(220, 75, 75, 0); }
+    }
+    .concert-banner h2 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+    .concert-banner .time-badge {
+      margin-left: auto;
+      font-size: 0.73rem;
+      font-weight: 700;
+      letter-spacing: 0.09em;
+      background: rgba(255, 255, 255, 0.18);
+      padding: 0.32rem 0.72rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+    }
+
+    .stream-wrapper {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      background: #09131f;
+      border: 1px solid var(--line);
+      border-top: none;
+      box-shadow: var(--shadow);
+    }
+    .stream-wrapper iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .action-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border: 1px solid var(--line);
+      border-top: none;
+      border-radius: 0 0 var(--radius) var(--radius);
+      overflow: hidden;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      margin-bottom: 0.35rem;
+    }
+    .action-card {
+      padding: 1.45rem 1.3rem;
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.7rem;
+      text-align: center;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+    .action-card:first-child { border-right: 1px solid var(--line); }
+    .action-card:hover {
+      background: #f9fbfe;
+      transform: translateY(-2px);
+    }
+
+    .action-cards.single-card {
+      grid-template-columns: 1fr;
+    }
+    .action-cards.single-card .action-card {
+      border-right: none;
+    }
+
+    .action-card .card-icon {
+      font-size: 1.65rem;
+      line-height: 1;
+    }
+    .action-card h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: #11253f;
+    }
+    .action-card p {
+      font-size: 0.83rem;
+      color: var(--ink-soft);
+      line-height: 1.45;
+      max-width: 30ch;
+    }
+
+    .collecte-options {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+      margin-top: 0.2rem;
+    }
+
+    .collecte-option {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #f8fbff;
+      padding: 0.65rem 0.65rem 0.7rem;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      grid-template-areas:
+        "text qr"
+        "cta cta";
+      column-gap: 0.65rem;
+      row-gap: 0.5rem;
+      align-items: center;
+      text-align: left;
+    }
+
+    .collecte-option h4 {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: #19304f;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      grid-column: 1;
+    }
+
+    .collecte-beneficiary {
+      font-size: 0.76rem;
+      color: #556983;
+      text-align: left;
+      min-height: 2.1em;
+      grid-area: text;
+      align-self: center;
+    }
+
+    .collecte-qr {
+      width: 92px;
+      min-height: 92px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+      margin-top: 0;
+      grid-area: qr;
+      justify-self: end;
+    }
+
+    .collecte-qr img,
+    .collecte-qr canvas {
+      width: 84px;
+      height: 84px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 0.45rem;
+      padding: 0.58rem 1.15rem;
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-radius: 999px;
+      transition: transform 0.2s ease, background 0.2s ease, color 0.2s ease;
+    }
+
+    .collecte-option .btn {
+      grid-area: cta;
+      justify-self: stretch;
+      text-align: center;
+      margin-top: 0;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn-small {
+      font-size: 0.68rem;
+      padding: 0.35rem 0.72rem;
+      letter-spacing: 0.06em;
+      margin-top: 0;
+      white-space: nowrap;
+    }
+
+    .btn-google {
+      background: #ffffff;
+      color: #1f1f1f;
+      border: 1px solid #cfd5dd;
+      font-weight: 800;
+    }
+    .btn-google:hover {
+      background: #f3f6fb;
+      color: #111827;
+    }
+
+    .btn-gold {
+      background: var(--accent);
+      color: #1f2530;
+      border: 1px solid #dca52c;
+    }
+    .btn-gold:hover {
+      background: #ddb037;
+      color: #131a24;
+    }
+    .btn-outline {
+      border: 1px solid #8ea0b5;
+      color: #21354f;
+      background: transparent;
+    }
+    .btn-outline:hover {
+      background: #eaf0f7;
+      color: #13283f;
+    }
+
+    .program-viewer {
+      display: none;
+      margin-top: 0.85rem;
+      scroll-margin-top: 0.75rem;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: var(--shadow);
+    }
+
+    .program-viewer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding: 0.7rem 0.9rem;
+      border-bottom: 1px solid var(--line);
+      background: #f8fbff;
+    }
+
+    .program-viewer-head h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #13283f;
+    }
+
+    .program-viewer-actions {
+      display: flex;
+      gap: 0.7rem;
+      align-items: center;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .program-viewer-actions a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.4rem 0.78rem;
+      border-radius: 999px;
+      border: 1px solid #8ea0b5;
+      background: #ffffff;
+      color: #21354f;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.2s ease, transform 0.2s ease, color 0.2s ease;
+    }
+
+    .program-viewer-actions a:hover {
+      background: #eaf0f7;
+      color: #13283f;
+      transform: translateY(-1px);
+    }
+
+    .program-viewer iframe {
+      width: 100%;
+      height: min(72vh, 820px);
+      border: none;
+      background: #fff;
+    }
+
+    .section-heading {
+      font-family: 'Fraunces', serif;
+      font-size: 1.58rem;
+      font-weight: 700;
+      color: #12253f;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .section-heading::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(143, 162, 185, 0.65), transparent);
+    }
+
+    .agenda-note {
+      margin: -0.35rem 0 1rem;
+      font-size: 0.82rem;
+      color: #5d6d83;
+      font-style: italic;
+    }
+
+    .agenda-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+    .agenda-item {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1rem 1.1rem;
+      display: grid;
+      grid-template-columns: 86px 1fr auto;
+      align-items: center;
+      gap: 1rem;
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+      box-shadow: 0 7px 22px rgba(20, 32, 51, 0.07);
+    }
+    .agenda-item:hover {
+      box-shadow: 0 10px 28px rgba(20, 32, 51, 0.12);
+      transform: translateY(-2px);
+    }
+
+    .agenda-date {
+      text-align: center;
+      background: var(--surface-alt);
+      color: #10213a;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      padding: 0.5rem;
+    }
+    .agenda-date .day-num {
+      font-family: 'Fraunces', serif;
+      font-size: 1.9rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+    .agenda-date .month-name {
+      font-size: 0.66rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #4f6078;
+    }
+
+    .agenda-info h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.14rem;
+      font-weight: 700;
+      color: #12253f;
+      line-height: 1.2;
+    }
+    .agenda-info .meta {
+      font-size: 0.79rem;
+      color: #5d6d83;
+      margin-top: 0.35rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+    }
+    .agenda-info .meta span { margin-right: 0; }
+
+    .agenda-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      align-items: flex-end;
+    }
+
+    .agenda-compact {
+      border: 1px solid rgba(216, 224, 234, 0.72);
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.72);
+      box-shadow: 0 4px 12px rgba(20, 32, 51, 0.05);
+    }
+
+    .agenda-compact-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      padding: 0.62rem 0.85rem;
+      border-bottom: 1px solid rgba(216, 224, 234, 0.72);
+      background: rgba(248, 251, 255, 0.9);
+    }
+
+    .agenda-compact-head h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: #364a65;
+    }
+
+    .agenda-compact-head p {
+      font-size: 0.74rem;
+      color: #74849a;
+      font-style: italic;
+      white-space: nowrap;
+    }
+
+    .agenda-compact-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .agenda-compact-item {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr) 180px;
+      gap: 0.65rem;
+      padding: 0.58rem 0.85rem;
+      border-top: 1px solid rgba(216, 224, 234, 0.52);
+      font-size: 0.8rem;
+      color: #50627a;
+      align-items: center;
+    }
+
+    .agenda-compact-item:first-child { border-top: none; }
+    .agenda-compact-date {
+      font-weight: 700;
+      color: #5d6f86;
+    }
+    .agenda-compact-title {
+      font-weight: 700;
+      color: #354a66;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .agenda-compact-location {
+      text-align: right;
+      color: #6f8097;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    body.live-mode #agenda-section {
+      margin-top: 1.1rem;
+      opacity: 0.94;
+    }
+
+    body.live-mode #agenda-section .section-heading {
+      font-size: 1.24rem;
+      margin-bottom: 0.55rem;
+      color: #4b5d75;
+    }
+
+    body.live-mode #agenda-section .section-heading::after {
+      background: linear-gradient(90deg, rgba(170, 184, 201, 0.45), transparent);
+    }
+
+    body.live-mode #agenda-section .agenda-note {
+      font-size: 0.76rem;
+      color: #7a8798;
+      margin-bottom: 0.65rem;
+    }
+
+    body.live-mode #agenda-section .agenda-item {
+      background: rgba(255, 255, 255, 0.76);
+      border-color: rgba(216, 224, 234, 0.72);
+      box-shadow: 0 4px 12px rgba(20, 32, 51, 0.06);
+      transform: none;
+    }
+
+    body.live-mode #agenda-section .agenda-item:hover {
+      box-shadow: 0 6px 16px rgba(20, 32, 51, 0.08);
+      transform: none;
+    }
+
+    body.live-mode #agenda-section .agenda-info h3 {
+      font-size: 1.02rem;
+      color: #2d435f;
+    }
+
+    body.live-mode #agenda-section .agenda-info .meta {
+      font-size: 0.73rem;
+      color: #6f7f93;
+    }
+
+    body.live-mode #agenda-section .agenda-date {
+      background: rgba(246, 248, 251, 0.9);
+    }
+
+    body.live-mode #agenda-section.agenda-compact-mode .section-heading,
+    body.live-mode #agenda-section.agenda-compact-mode .agenda-note {
+      display: none;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #5f7088;
+      background: rgba(255, 255, 255, 0.75);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+    }
+    .empty-state .big-icon { font-size: 2.4rem; margin-bottom: 0.7rem; }
+    .empty-state p {
+      font-family: 'Fraunces', serif;
+      font-size: 1.1rem;
+    }
+
+    #loading {
+      text-align: center;
+      padding: 4rem 1rem;
+      color: #5f7088;
+      font-style: italic;
+      font-family: 'Fraunces', serif;
+      font-size: 1.08rem;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: auto;
+      padding: 1rem 1rem calc(1rem + env(safe-area-inset-bottom));
+      font-size: 0.76rem;
+      color: #5f7088;
+      border-top: 1px solid #d5deea;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(247, 250, 255, 0.95));
+      backdrop-filter: blur(3px);
+    }
+    footer a {
+      color: #16625e;
+      text-decoration: none;
+      font-weight: 700;
+    }
+    footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 760px) {
+      body {
+        background-attachment: scroll, scroll, scroll, scroll;
+      }
+
+      header {
+        width: calc(100% - 1.15rem);
+        margin-top: 0.55rem;
+        padding: 0.95rem 0.9rem 0.85rem;
+      }
+      h1 { font-size: clamp(1.6rem, 8.3vw, 2.15rem); }
+      .church-name { font-size: 0.84rem; }
+      .action-cards { grid-template-columns: 1fr; }
+      .action-card:first-child {
+        border-right: none;
+        border-bottom: 1px solid var(--line);
+      }
+      .agenda-item {
+        grid-template-columns: 74px 1fr;
+        gap: 0.85rem;
+      }
+      .agenda-links {
+        grid-column: 1 / -1;
+        align-items: flex-start;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-top: 0.25rem;
+      }
+      .concert-banner {
+        flex-wrap: wrap;
+        row-gap: 0.5rem;
+      }
+      .concert-banner .time-badge { margin-left: 1.2rem; }
+
+      .collecte-option {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+          "text"
+          "qr"
+          "cta";
+        text-align: center;
+      }
+      .collecte-beneficiary { text-align: center; }
+      .collecte-qr {
+        grid-area: qr;
+        justify-self: center;
+        margin-top: 0.2rem;
+      }
+      .collecte-option .btn {
+        justify-self: stretch;
+      }
+
+      .agenda-compact-head {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .agenda-compact-head p { white-space: normal; }
+      .agenda-compact-item {
+        grid-template-columns: 1fr;
+        gap: 0.2rem;
+      }
+      .agenda-compact-location {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-band"></div>
+
+<header>
+  <h1 id="page-title">Concertagenda</h1>
+  <p class="church-name">Met Hart en Stem — Veenendaal</p>
+</header>
+
+<main>
+  <div id="loading">Agenda wordt geladen…</div>
+
+  <!-- ══ LIVE SECTIE ══ -->
+  <div id="live-section">
+    <div class="concert-banner">
+      <span class="live-dot" id="live-dot"></span>
+      <h2 id="concert-title">Concert</h2>
+      <span class="time-badge" id="concert-time"></span>
+    </div>
+
+    <div class="stream-wrapper">
+      <iframe id="stream-iframe"
+        src=""
+        allowfullscreen
+        allow="autoplay; encrypted-media; fullscreen"
+        title="Live uitzending">
+      </iframe>
+    </div>
+
+    <div class="action-cards">
+      <!-- Betaalverzoek -->
+      <div class="action-card" id="payment-card">
+        <span class="card-icon">💌</span>
+        <h3>Collecte</h3>
+        <p>Steun dit concert met een bijdrage</p>
+
+        <div class="collecte-options">
+          <div class="collecte-option" id="collecte-doel-option">
+            <div class="collecte-qr" id="collecte-doel-qr"></div>
+            <p class="collecte-beneficiary" id="collecte-doel-beneficiary"></p>
+            <a id="collecte-doel-link" href="#" target="_blank" class="btn btn-gold">Geef voor goed doel</a>
+          </div>
+
+          <div class="collecte-option" id="collecte-onkosten-option">
+            <div class="collecte-qr" id="collecte-onkosten-qr"></div>
+            <p class="collecte-beneficiary">Bestrijding van de onkosten</p>
+            <a id="collecte-onkosten-link" href="#" target="_blank" class="btn btn-outline">Geef voor onkosten</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Programmaboekje -->
+      <div class="action-card" id="program-card">
+        <span class="card-icon">📖</span>
+        <h3>Programmaboekje</h3>
+        <p>Download het digitale programma voor dit concert</p>
+        <button id="program-view-toggle" type="button" class="btn btn-gold">Bekijk programma</button>
+        <a id="program-link" href="#" target="_blank" class="btn btn-outline btn-small">Download programma</a>
+      </div>
+    </div>
+
+    <div id="program-viewer" class="program-viewer">
+      <div class="program-viewer-head">
+        <h3>Programmaboekje</h3>
+        <div class="program-viewer-actions">
+          <a id="program-open-new" href="#" target="_blank" rel="noopener noreferrer">Open in nieuw venster</a>
+          <a id="program-back-to-stream" href="#" style="display:none;">Terug naar livestream</a>
+        </div>
+      </div>
+      <iframe id="program-iframe" title="Programmaboekje"></iframe>
+    </div>
+  </div>
+
+  <!-- ══ AGENDA SECTIE ══ -->
+  <div id="agenda-section">
+    <h2 class="section-heading">Geplande concerten</h2>
+    <p class="agenda-note">Voor alle genoemde data geldt: Deo Volente.</p>
+    <div class="agenda-list" id="agenda-list"></div>
+  </div>
+</main>
+
+<footer>
+  <p>Met Hart en Stem Veenendaal &nbsp;·&nbsp; <a id="email-link" href="#" aria-label="E-mail">E-mail</a></p>
+</footer>
+<!-- Tiny QR library (no external deps needed for simple URL QR) -->
+<script>
+/* ── Minimal QR encoder (MIT) — qrcode-generator stripped ── */
+/* We use a CDN-hosted version instead */
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<script>
+  // ── Helpers ──────────────────────────────────────────────
+  const NL_MONTHS = ['jan','feb','mrt','apr','mei','jun','jul','aug','sep','okt','nov','dec'];
+  const NL_MONTHS_FULL = ['januari','februari','maart','april','mei','juni',
+                          'juli','augustus','september','oktober','november','december'];
+
+  function todayStr() {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  }
+
+  function parseDateParts(dateStr) {
+    const [y,m,d] = dateStr.split('-').map(Number);
+    return { y, m, d };
+  }
+
+  function isFuture(dateStr) {
+    return dateStr >= todayStr();
+  }
+
+  function getLiveDateOverride() {
+    const params = new URLSearchParams(window.location.search);
+    const value = (params.get('live') || '').trim();
+    return /^\d{4}-\d{2}-\d{2}$/.test(value) ? value : '';
+  }
+
+  function pad2(n) {
+    return String(n).padStart(2, '0');
+  }
+
+  function escapeIcsText(text = '') {
+    return String(text)
+      .replace(/\\/g, '\\\\')
+      .replace(/;/g, '\\;')
+      .replace(/,/g, '\\,')
+      .replace(/\n/g, '\\n');
+  }
+
+  function parseTime(timeStr = '') {
+    const [h, m] = String(timeStr).split(':').map(Number);
+    return {
+      hours: Number.isFinite(h) ? h : 19,
+      minutes: Number.isFinite(m) ? m : 30
+    };
+  }
+
+  function buildCalendarLinks(concert) {
+    const { y, m, d } = parseDateParts(concert.date);
+    const { hours, minutes } = parseTime(concert.tijd);
+
+    const start = new Date(y, m - 1, d, hours, minutes, 0);
+    const end = new Date(start.getTime() + 90 * 60 * 1000);
+
+    const fmt = (dt) => `${dt.getFullYear()}${pad2(dt.getMonth() + 1)}${pad2(dt.getDate())}T${pad2(dt.getHours())}${pad2(dt.getMinutes())}00`;
+    const uid = `${concert.date}-${escapeIcsText(concert.title).replace(/[^a-zA-Z0-9]/g, '')}@methartenstem-veenendaal.nl`;
+    const stamp = `${todayStr().replace(/-/g, '')}T000000`;
+    const location = concert.locatie || 'Veenendaal';
+    const details = 'Concert van Met Hart en Stem Veenendaal';
+
+    const ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Met Hart en Stem//Concert Agenda//NL',
+      'CALSCALE:GREGORIAN',
+      'BEGIN:VEVENT',
+      `UID:${uid}`,
+      `DTSTAMP:${stamp}`,
+      `DTSTART:${fmt(start)}`,
+      `DTEND:${fmt(end)}`,
+      `SUMMARY:${escapeIcsText(concert.title)}`,
+      `LOCATION:${escapeIcsText(location)}`,
+      `DESCRIPTION:${escapeIcsText(details)}`,
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
+
+    const safeTitle = String(concert.title || 'concert').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    const dateRange = `${fmt(start)}/${fmt(end)}`;
+    const googleHref = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(concert.title)}&dates=${encodeURIComponent(dateRange)}&location=${encodeURIComponent(location)}&details=${encodeURIComponent(details)}`;
+    return {
+      icsHref: `data:text/calendar;charset=utf-8,${encodeURIComponent(ics)}`,
+      fileName: `${concert.date}-${safeTitle || 'concert'}.ics`,
+      googleHref
+    };
+  }
+
+  // Build e-mail link at runtime to reduce simple HTML scraping.
+  function initProtectedEmail() {
+    const link = document.getElementById('email-link');
+    if (!link) return;
+
+    const user = ['i', 'n', 'f', 'o'].join('');
+    const domain = ['methartenstem', 'veenendaal.nl'].join('-');
+    const email = `${user}@${domain}`;
+
+    link.href = `mailto:${email}`;
+    link.textContent = email;
+  }
+
+  function setPageMode(isLive) {
+    const body = document.body;
+    const pageHeader = document.querySelector('header');
+    const subtitle = document.getElementById('page-subtitle');
+    const title = document.getElementById('page-title');
+
+    if (isLive) {
+      document.title = 'Live — Met Hart en Stem, Veenendaal';
+      if (body) body.classList.add('live-mode');
+      if (pageHeader) pageHeader.style.display = 'none';
+      if (subtitle) subtitle.textContent = 'Live uitzending';
+      if (title) title.textContent = 'Live';
+      return;
+    }
+
+    document.title = 'Concertagenda — Met Hart en Stem, Veenendaal';
+    if (body) body.classList.remove('live-mode');
+    if (pageHeader) pageHeader.style.display = 'block';
+    if (subtitle) subtitle.textContent = 'Geplande concerten';
+    if (title) title.textContent = 'Concertagenda';
+  }
+
+  // ── Load concerts.json ────────────────────────────────────
+  async function loadConcerts() {
+    try {
+      const res = await fetch('concerts.json?v=' + Date.now());
+      if (!res.ok) throw new Error('Kon agenda niet laden');
+      return await res.json();
+    } catch (e) {
+      console.error(e);
+      return [];
+    }
+  }
+
+  function decodeBase64(value) {
+    if (!value) return '';
+    try {
+      return atob(String(value).trim());
+    } catch (e) {
+      console.warn('Kon stream_url_encoded niet decoderen', e);
+      return '';
+    }
+  }
+
+  function resolveStreamUrl(concert) {
+    if (concert && concert.stream_url_encoded) {
+      const decoded = decodeBase64(concert.stream_url_encoded);
+      if (decoded) return decoded;
+    }
+    return (concert && concert.stream_url) || '';
+  }
+
+  function renderCollecteQr(elementId, url) {
+    const holder = document.getElementById(elementId);
+    if (!holder) return;
+
+    holder.innerHTML = '';
+    if (!url) return;
+
+    try {
+      new QRCode(holder, {
+        text: url,
+        width: 84,
+        height: 84,
+        colorDark: '#1A1410',
+        colorLight: '#FFFFFF',
+        correctLevel: QRCode.CorrectLevel.M
+      });
+    } catch (e) {
+      holder.style.display = 'none';
+    }
+  }
+
+  function setProgramViewerVisible(visible) {
+    const viewer = document.getElementById('program-viewer');
+    const toggle = document.getElementById('program-view-toggle');
+    if (!viewer || !toggle) return;
+
+    viewer.style.display = visible ? 'block' : 'none';
+    toggle.textContent = 'Bekijk programma';
+  }
+
+  function toggleProgramViewer() {
+    const viewer = document.getElementById('program-viewer');
+    if (!viewer) return;
+
+    setProgramViewerVisible(true);
+    viewer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function scrollToLiveStream(event) {
+    if (event) event.preventDefault();
+    const streamWrapper = document.querySelector('.stream-wrapper');
+    if (!streamWrapper || streamWrapper.style.display === 'none') return;
+    streamWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ── Show live stream ──────────────────────────────────────
+  function showLive(concert) {
+    document.getElementById('live-section').style.display = 'block';
+    document.getElementById('concert-title').textContent = concert.title;
+    document.getElementById('concert-time').textContent = concert.tijd || '';
+
+    const streamUrl = resolveStreamUrl(concert);
+    const liveDot = document.getElementById('live-dot');
+    const streamWrapper = document.querySelector('.stream-wrapper');
+    const streamIframe = document.getElementById('stream-iframe');
+
+    if (streamUrl) {
+      if (liveDot) liveDot.style.display = 'inline-block';
+      if (streamWrapper) streamWrapper.style.display = 'block';
+      if (streamIframe) streamIframe.src = streamUrl;
+    } else {
+      if (liveDot) liveDot.style.display = 'none';
+      if (streamWrapper) streamWrapper.style.display = 'none';
+      if (streamIframe) streamIframe.src = '';
+    }
+
+    // Collectes
+    const paymentCard = document.getElementById('payment-card');
+    const actionCards = document.querySelector('.action-cards');
+    const doelOption = document.getElementById('collecte-doel-option');
+    const doelLink = document.getElementById('collecte-doel-link');
+    const doelBeneficiary = document.getElementById('collecte-doel-beneficiary');
+    const onkostenOption = document.getElementById('collecte-onkosten-option');
+    const onkostenLink = document.getElementById('collecte-onkosten-link');
+
+    const goedDoelUrl = concert.collecte_goed_doel_url || '';
+    const onkostenUrl = concert.collecte_onkosten_url || concert.betaalverzoek_url || '';
+    const tenBateVan = concert.collecte_goed_doel_ten_bate_van || '';
+
+    if (goedDoelUrl) {
+      doelOption.style.display = 'flex';
+      doelLink.href = goedDoelUrl;
+      doelBeneficiary.textContent = tenBateVan ? `Ten bate van: ${tenBateVan}` : 'Specifiek goed doel';
+      document.getElementById('collecte-doel-qr').style.display = 'flex';
+      renderCollecteQr('collecte-doel-qr', goedDoelUrl);
+    } else {
+      doelOption.style.display = 'none';
+    }
+
+    if (onkostenUrl) {
+      onkostenOption.style.display = 'flex';
+      onkostenLink.href = onkostenUrl;
+      document.getElementById('collecte-onkosten-qr').style.display = 'flex';
+      renderCollecteQr('collecte-onkosten-qr', onkostenUrl);
+    } else {
+      onkostenOption.style.display = 'none';
+    }
+
+    if (!goedDoelUrl && !onkostenUrl) {
+      paymentCard.style.display = 'none';
+    } else {
+      paymentCard.style.display = 'flex';
+    }
+
+    // Programmaboekje
+    const programCard = document.getElementById('program-card');
+    const programToggle = document.getElementById('program-view-toggle');
+    const programOpenNew = document.getElementById('program-open-new');
+    const programBackToStream = document.getElementById('program-back-to-stream');
+    const programFrame = document.getElementById('program-iframe');
+
+    if (concert.programmaboekje_pdf) {
+      document.getElementById('program-link').href = concert.programmaboekje_pdf;
+      if (programOpenNew) programOpenNew.href = `${concert.programmaboekje_pdf}#toolbar=0&view=FitV&page=2`;
+      if (programBackToStream) programBackToStream.style.display = streamUrl ? 'inline' : 'none';
+      if (programFrame) programFrame.src = `${concert.programmaboekje_pdf}#toolbar=0&view=FitH&page=2`;
+      if (programCard) programCard.style.display = 'flex';
+      if (programToggle) programToggle.style.display = 'inline-block';
+      setProgramViewerVisible(false);
+    } else {
+      if (programCard) programCard.style.display = 'none';
+      if (programBackToStream) programBackToStream.style.display = 'none';
+      if (programFrame) programFrame.src = '';
+      setProgramViewerVisible(false);
+    }
+
+    // If only one card is visible, let it use the full row width.
+    const visibleCards = [paymentCard, programCard].filter(card => card && card.style.display !== 'none');
+    if (actionCards) {
+      actionCards.style.display = visibleCards.length === 0 ? 'none' : 'grid';
+      actionCards.classList.toggle('single-card', visibleCards.length === 1);
+    }
+  }
+
+  // ── Show agenda ───────────────────────────────────────────
+  function showAgenda(concerts, options = {}) {
+    const { minDate = null, showEmptyState = true, compact = false } = options;
+    const section = document.getElementById('agenda-section');
+    const list    = document.getElementById('agenda-list');
+    section.classList.toggle('agenda-compact-mode', compact);
+
+    const upcoming = concerts
+      .filter(c => isFuture(c.date))
+      .filter(c => !minDate || c.date > minDate)
+      .sort((a,b) => a.date.localeCompare(b.date));
+
+    if (upcoming.length === 0) {
+      if (!showEmptyState) {
+        section.style.display = 'none';
+        list.innerHTML = '';
+        return;
+      }
+
+      section.style.display = 'block';
+      list.innerHTML = `
+        <div class="empty-state">
+          <div class="big-icon">🎵</div>
+          <p>Er zijn nog geen concerten ingepland.<br>Kom later terug!</p>
+        </div>`;
+      return;
+    }
+
+    section.style.display = 'block';
+
+    if (compact) {
+      list.innerHTML = `
+        <div class="agenda-compact">
+          <div class="agenda-compact-head">
+            <h3>Agenda</h3>
+            <p>Alle data Deo Volente</p>
+          </div>
+          <ul class="agenda-compact-list">
+            ${upcoming.map(c => {
+              const { y, m, d } = parseDateParts(c.date);
+              const location = c.locatie || 'n.n.b.';
+              return `
+                <li class="agenda-compact-item">
+                  <span class="agenda-compact-date">${String(d).padStart(2,'0')} ${NL_MONTHS_FULL[m-1]} ${y}</span>
+                  <span class="agenda-compact-title">${c.title}</span>
+                  <span class="agenda-compact-location">${location}</span>
+                </li>`;
+            }).join('')}
+          </ul>
+        </div>`;
+      return;
+    }
+
+    list.innerHTML = upcoming.map(c => {
+      const {y,m,d} = parseDateParts(c.date);
+      const calendarLinks = buildCalendarLinks(c);
+      const googleBtn = `<a href="${calendarLinks.googleHref}" target="_blank" rel="noopener noreferrer" class="btn btn-google btn-small" aria-label="Open in Google Calendar">📅 Toevoegen aan Google Agenda</a>`;
+      const icsBtn = `<a href="${calendarLinks.icsHref}" download="${calendarLinks.fileName}" class="btn btn-outline btn-small">📅 Toevoegen aan Agenda</a>`;
+      return `
+        <div class="agenda-item">
+          <div class="agenda-date">
+            <div class="day-num">${String(d).padStart(2,'0')}</div>
+            <div class="month-name">${NL_MONTHS[m-1]} ${y}</div>
+          </div>
+          <div class="agenda-info">
+            <h3>${c.title}</h3>
+            <div class="meta">
+              ${c.tijd ? `<span>🕐 ${c.tijd}</span>` : ''}
+              ${c.locatie ? `<span>📍 ${c.locatie}</span>` : ''}
+            </div>
+          </div>
+          <div class="agenda-links">${googleBtn}${icsBtn}</div>
+        </div>`;
+    }).join('');
+  }
+
+  // ── Init ──────────────────────────────────────────────────
+  (async () => {
+    initProtectedEmail();
+    const programToggle = document.getElementById('program-view-toggle');
+    const programBackToStream = document.getElementById('program-back-to-stream');
+    if (programToggle) programToggle.addEventListener('click', toggleProgramViewer);
+    if (programBackToStream) programBackToStream.addEventListener('click', scrollToLiveStream);
+
+    const concerts = await loadConcerts();
+    document.getElementById('loading').style.display = 'none';
+
+    const forcedLiveDate = getLiveDateOverride();
+    const forcedConcert = forcedLiveDate ? concerts.find(c => c.date === forcedLiveDate) : null;
+
+    if (forcedConcert) {
+      setPageMode(true);
+      showLive(forcedConcert);
+      showAgenda(concerts, { minDate: forcedLiveDate, showEmptyState: false, compact: true });
+      return;
+    }
+
+    const today = todayStr();
+    const todayConcert = concerts.find(c => c.date === today);
+
+    if (todayConcert) {
+      setPageMode(true);
+      showLive(todayConcert);
+      showAgenda(concerts, { minDate: today, showEmptyState: false, compact: true });
+    } else {
+      setPageMode(false);
+      showAgenda(concerts);
+    }
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+[
+  {
+    "date": "2026-03-28",
+    "title": "Paasconcert",
+    "tijd": "19:30",
+    "locatie": "Adventkerk Veenendaal",
+    "stream_url_encoded": "aHR0cHM6Ly9rZXJrZGllbnN0Z2VtaXN0Lm5sL3N0cmVhbXMvMTUyMDk3Ny9lbWJlZD9hY2Nlc3Nfa2V5PUdnYl9HRHByQkx5OW93",
+    "collecte_goed_doel_url": "https://betaalverzoek.rabobank.nl/betaalverzoek/?id=fqSEW04iQ865MgH0vNbAVQ",
+    "collecte_goed_doel_ten_bate_van": "Helpende Handen",
+    "collecte_onkosten_url": "https://betaalverzoek.rabobank.nl/betaalverzoek/?id=BDpA-LG5QduGO_TSVUs0Bw",
+    "programmaboekje_pdf": "programma/20260328.pdf"
+
+  },
+  {
+    "date": "2026-06-06",
+    "title": "Slotconcert",
+    "tijd": "n.n.b.",
+    "locatie": "n.n.b."
+  },
+  {
+    "date": "2026-06-12",
+    "title": "Concert voor Denbi m.m.v. Rehobothkoor, Kootwijkerbroek",
+    "tijd": "19:30",
+    "locatie": "Oude Kerk Lunteren"
+  },
+  {
+    "date": "2026-10-31",
+    "title": "Hervormingsconcert",
+    "tijd": "19:30",
+    "locatie": "n.n.b."
+  },
+  {
+    "date": "2026-12-12",
+    "title": "Kerstconcert m.m.v. kinder-, tienerkoor en jeugdensemble",
+    "tijd": "19:30",
+    "locatie": "Adventkerk Veenendaal",
+    "stream_url_encoded": "aHR0cHM6Ly9rZXJrZGllbnN0Z2VtaXN0Lm5sL3N0cmVhbXMvMTUyMDk3Ny9lbWJlZD9hY2Nlc3Nfa2V5PUdnYl9HRHByQkx5OW93"
+  },
+  {
+    "date": "2027-03-27",
+    "title": "Passie Pasen m.m.v. gemengd koor Yehuda Beekbergen",
+    "tijd": "19:30",
+    "locatie": "Adventkerk Veenendaal",
+    "stream_url_encoded": "aHR0cHM6Ly9rZXJrZGllbnN0Z2VtaXN0Lm5sL3N0cmVhbXMvMTUyMDk3Ny9lbWJlZD9hY2Nlc3Nfa2V5PUdnYl9HRHByQkx5OW93"
+  }
+]
