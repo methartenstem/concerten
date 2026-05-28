@@ -455,6 +455,111 @@
       transition: box-shadow 0.2s ease, transform 0.2s ease;
       box-shadow: 0 7px 22px rgba(20, 32, 51, 0.07);
     }
+    .agenda-item.has-flyer {
+      grid-template-columns: 86px 1fr 64px auto;
+    }
+
+    .agenda-flyer-thumb {
+      width: 64px;
+      height: 64px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #f8fbff center / cover no-repeat;
+      cursor: zoom-in;
+      padding: 0;
+      overflow: hidden;
+      display: block;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 2px 6px rgba(20, 32, 51, 0.08);
+    }
+    .agenda-flyer-thumb:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(20, 32, 51, 0.15);
+    }
+    .agenda-flyer-thumb:focus-visible {
+      outline: 2px solid var(--brand);
+      outline-offset: 2px;
+    }
+
+    .flyer-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 16, 28, 0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      z-index: 1000;
+      animation: reveal 0.2s ease-out;
+    }
+    .flyer-modal.is-open { display: flex; }
+    .flyer-modal img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      cursor: zoom-out;
+    }
+    .flyer-modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(255, 255, 255, 0.92);
+      color: #142033;
+      font-size: 1.5rem;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+    .flyer-modal-close:hover { background: #fff; }
+
+    .flyer-modal-share {
+      position: absolute;
+      bottom: 1.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.2rem;
+      border-radius: 999px;
+      border: none;
+      background: #25d366;
+      color: #fff;
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+    .flyer-modal-share:hover { background: #1fbf5b; transform: translateX(-50%) translateY(-1px); }
+    .flyer-modal-share:disabled { opacity: 0.65; cursor: wait; }
+    .flyer-modal-hint {
+      position: absolute;
+      bottom: 4.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(20, 32, 51, 0.9);
+      color: #fff;
+      font-size: 0.78rem;
+      padding: 0.5rem 0.9rem;
+      border-radius: 8px;
+      max-width: min(90vw, 360px);
+      text-align: center;
+      display: none;
+    }
+    .flyer-modal-hint.is-visible { display: block; }
     .agenda-item:hover {
       box-shadow: 0 10px 28px rgba(20, 32, 51, 0.12);
       transform: translateY(-2px);
@@ -688,6 +793,13 @@
         grid-template-columns: 74px 1fr;
         gap: 0.85rem;
       }
+      .agenda-item.has-flyer {
+        grid-template-columns: 74px 1fr 56px;
+      }
+      .agenda-flyer-thumb {
+        width: 56px;
+        height: 56px;
+      }
       .agenda-links {
         grid-column: 1 / -1;
         align-items: flex-start;
@@ -757,7 +869,6 @@
     <div class="stream-wrapper">
       <iframe id="stream-iframe"
         src=""
-        allowfullscreen
         allow="autoplay; encrypted-media; fullscreen"
         title="Live uitzending">
       </iframe>
@@ -818,6 +929,15 @@
 <footer>
   <p>Met Hart en Stem Veenendaal &nbsp;·&nbsp; <a id="email-link" href="#" aria-label="E-mail">E-mail</a></p>
 </footer>
+
+<div id="flyer-modal" class="flyer-modal" role="dialog" aria-modal="true" aria-label="Flyer" hidden>
+  <button type="button" class="flyer-modal-close" id="flyer-modal-close" aria-label="Sluiten">×</button>
+  <img id="flyer-modal-img" src="" alt="Flyer" />
+  <div id="flyer-modal-hint" class="flyer-modal-hint"></div>
+  <button type="button" class="flyer-modal-share" id="flyer-modal-share">
+    <span aria-hidden="true">📤</span> Deel flyer
+  </button>
+</div>
 <!-- Tiny QR library (no external deps needed for simple URL QR) -->
 <script>
 /* ── Minimal QR encoder (MIT) — qrcode-generator stripped ── */
@@ -1168,8 +1288,11 @@
       const calendarLinks = buildCalendarLinks(c);
       const googleBtn = `<a href="${calendarLinks.googleHref}" target="_blank" rel="noopener noreferrer" class="btn btn-google btn-small" aria-label="Open in Google Calendar">📅 Toevoegen aan Google Agenda</a>`;
       const icsBtn = `<a href="${calendarLinks.icsHref}" download="${calendarLinks.fileName}" class="btn btn-outline btn-small">📅 Toevoegen aan Agenda</a>`;
+      const flyerThumb = c.flyer
+        ? `<button type="button" class="agenda-flyer-thumb" data-flyer="${c.flyer}" data-flyer-title="${c.title.replace(/"/g, '&quot;')}" style="background-image:url('${c.flyer}')" aria-label="Bekijk flyer voor ${c.title.replace(/"/g, '&quot;')}"></button>`
+        : '';
       return `
-        <div class="agenda-item">
+        <div class="agenda-item${c.flyer ? ' has-flyer' : ''}">
           <div class="agenda-date">
             <div class="day-num">${String(d).padStart(2,'0')}</div>
             <div class="month-name">${NL_MONTHS[m-1]} ${y}</div>
@@ -1181,6 +1304,7 @@
               ${c.locatie ? `<span>📍 ${c.locatie}</span>` : ''}
             </div>
           </div>
+          ${flyerThumb}
           <div class="agenda-links">${googleBtn}${icsBtn}</div>
         </div>`;
     }).join('');
@@ -1193,6 +1317,93 @@
     const programBackToStream = document.getElementById('program-back-to-stream');
     if (programToggle) programToggle.addEventListener('click', toggleProgramViewer);
     if (programBackToStream) programBackToStream.addEventListener('click', scrollToLiveStream);
+
+    // Flyer modal
+    const flyerModal = document.getElementById('flyer-modal');
+    const flyerModalImg = document.getElementById('flyer-modal-img');
+    const flyerModalClose = document.getElementById('flyer-modal-close');
+    const flyerModalShare = document.getElementById('flyer-modal-share');
+    const flyerModalHint = document.getElementById('flyer-modal-hint');
+    let currentFlyer = { src: '', title: '' };
+    let hintTimer = null;
+    function showHint(msg) {
+      if (!flyerModalHint) return;
+      flyerModalHint.textContent = msg;
+      flyerModalHint.classList.add('is-visible');
+      clearTimeout(hintTimer);
+      hintTimer = setTimeout(() => flyerModalHint.classList.remove('is-visible'), 4500);
+    }
+    function openFlyerModal(src, title) {
+      if (!flyerModal || !flyerModalImg) return;
+      currentFlyer = { src, title: title || '' };
+      flyerModalImg.src = src;
+      flyerModalImg.alt = title ? `Flyer ${title}` : 'Flyer';
+      flyerModal.hidden = false;
+      flyerModal.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+      if (flyerModalHint) flyerModalHint.classList.remove('is-visible');
+    }
+    function closeFlyerModal() {
+      if (!flyerModal) return;
+      flyerModal.classList.remove('is-open');
+      flyerModal.hidden = true;
+      if (flyerModalImg) flyerModalImg.src = '';
+      document.body.style.overflow = '';
+      currentFlyer = { src: '', title: '' };
+    }
+    async function shareFlyer() {
+      if (!currentFlyer.src || !flyerModalShare) return;
+      const src = currentFlyer.src;
+      const title = currentFlyer.title || 'Concert';
+      const fileName = src.split('/').pop() || 'flyer.jpg';
+      flyerModalShare.disabled = true;
+      try {
+        const res = await fetch(src);
+        if (!res.ok) throw new Error('fetch failed');
+        const blob = await res.blob();
+        const file = new File([blob], fileName, { type: blob.type || 'image/jpeg' });
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            files: [file],
+            title: `Flyer — ${title}`,
+            text: `Flyer: ${title}`
+          });
+          return;
+        }
+        // Fallback: download + uitleg
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 1500);
+        showHint('Afbeelding gedownload. Open WhatsApp en kies deze foto bij je Status.');
+      } catch (err) {
+        if (err && err.name === 'AbortError') return;
+        console.warn('Delen mislukt', err);
+        showHint('Delen lukte niet. Download de afbeelding handmatig en deel via WhatsApp.');
+      } finally {
+        flyerModalShare.disabled = false;
+      }
+    }
+    document.addEventListener('click', (e) => {
+      const thumb = e.target.closest('.agenda-flyer-thumb');
+      if (thumb) {
+        openFlyerModal(thumb.dataset.flyer, thumb.dataset.flyerTitle);
+      }
+    });
+    if (flyerModal) {
+      flyerModal.addEventListener('click', (e) => {
+        if (e.target === flyerModal || e.target === flyerModalImg) closeFlyerModal();
+      });
+    }
+    if (flyerModalClose) flyerModalClose.addEventListener('click', closeFlyerModal);
+    if (flyerModalShare) flyerModalShare.addEventListener('click', shareFlyer);
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && flyerModal && flyerModal.classList.contains('is-open')) closeFlyerModal();
+    });
 
     const concerts = await loadConcerts();
     document.getElementById('loading').style.display = 'none';

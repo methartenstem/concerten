@@ -9,7 +9,6 @@
     "collecte_goed_doel_ten_bate_van": "Helpende Handen",
     "collecte_onkosten_url": "https://betaalverzoek.rabobank.nl/betaalverzoek/?id=BDpA-LG5QduGO_TSVUs0Bw",
     "programmaboekje_pdf": "programma/20260328.pdf"
-
   },
   {
     "date": "2026-06-06",
@@ -20,13 +19,15 @@
     "collecte_goed_doel_url": "https://betaalverzoek.rabobank.nl/betaalverzoek/?id=WpGfkOZdSkqw1ulb9W8azw",
     "collecte_goed_doel_ten_bate_van": "ZGG (Jacobina van Hoef)",
     "collecte_onkosten_url": "https://betaalverzoek.rabobank.nl/betaalverzoek/?id=6_er7lDaTEGZnXy7VHp6Kw",
-    "programmaboekje_pdf": "programma/20260606.pdf"
+    "programmaboekje_pdf": "programma/20260606.pdf",
+    "flyer": "flyer/20260606.jpg"
   },
   {
     "date": "2026-06-12",
-    "title": "Concert voor Denbi m.m.v. Rehobothkoor, Kootwijkerbroek",
+    "title": "Zingen voor Ethiopië",
     "tijd": "19:30",
-    "locatie": "Oude Kerk Lunteren"
+    "locatie": "Oude Kerk Lunteren",
+    "flyer": "flyer/20260612.jpg"
   },
   {
     "date": "2026-10-31",
