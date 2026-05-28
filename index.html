@@ -1288,8 +1288,9 @@
       const calendarLinks = buildCalendarLinks(c);
       const googleBtn = `<a href="${calendarLinks.googleHref}" target="_blank" rel="noopener noreferrer" class="btn btn-google btn-small" aria-label="Open in Google Calendar">📅 Toevoegen aan Google Agenda</a>`;
       const icsBtn = `<a href="${calendarLinks.icsHref}" download="${calendarLinks.fileName}" class="btn btn-outline btn-small">📅 Toevoegen aan Agenda</a>`;
+      const flyerDateStr = `${String(d).padStart(2,'0')} ${NL_MONTHS_FULL[m-1]} ${y}`;
       const flyerThumb = c.flyer
-        ? `<button type="button" class="agenda-flyer-thumb" data-flyer="${c.flyer}" data-flyer-title="${c.title.replace(/"/g, '&quot;')}" style="background-image:url('${c.flyer}')" aria-label="Bekijk flyer voor ${c.title.replace(/"/g, '&quot;')}"></button>`
+        ? `<button type="button" class="agenda-flyer-thumb" data-flyer="${c.flyer}" data-flyer-title="${c.title.replace(/"/g, '&quot;')}" data-flyer-date="${flyerDateStr}" data-flyer-time="${(c.tijd || '').replace(/"/g, '&quot;')}" data-flyer-location="${(c.locatie || '').replace(/"/g, '&quot;')}" style="background-image:url('${c.flyer}')" aria-label="Bekijk flyer voor ${c.title.replace(/"/g, '&quot;')}"></button>`
         : '';
       return `
         <div class="agenda-item${c.flyer ? ' has-flyer' : ''}">
@@ -1324,7 +1325,7 @@
     const flyerModalClose = document.getElementById('flyer-modal-close');
     const flyerModalShare = document.getElementById('flyer-modal-share');
     const flyerModalHint = document.getElementById('flyer-modal-hint');
-    let currentFlyer = { src: '', title: '' };
+    let currentFlyer = { src: '', title: '', date: '', time: '', location: '' };
     let hintTimer = null;
     function showHint(msg) {
       if (!flyerModalHint) return;
@@ -1333,9 +1334,9 @@
       clearTimeout(hintTimer);
       hintTimer = setTimeout(() => flyerModalHint.classList.remove('is-visible'), 4500);
     }
-    function openFlyerModal(src, title) {
+    function openFlyerModal(src, title, date, time, location) {
       if (!flyerModal || !flyerModalImg) return;
-      currentFlyer = { src, title: title || '' };
+      currentFlyer = { src, title: title || '', date: date || '', time: time || '', location: location || '' };
       flyerModalImg.src = src;
       flyerModalImg.alt = title ? `Flyer ${title}` : 'Flyer';
       flyerModal.hidden = false;
@@ -1349,7 +1350,7 @@
       flyerModal.hidden = true;
       if (flyerModalImg) flyerModalImg.src = '';
       document.body.style.overflow = '';
-      currentFlyer = { src: '', title: '' };
+      currentFlyer = { src: '', title: '', date: '', time: '', location: '' };
     }
     async function shareFlyer() {
       if (!currentFlyer.src || !flyerModalShare) return;
@@ -1362,11 +1363,17 @@
         if (!res.ok) throw new Error('fetch failed');
         const blob = await res.blob();
         const file = new File([blob], fileName, { type: blob.type || 'image/jpeg' });
+        const date = currentFlyer.date;
+        const time = currentFlyer.time;
+        const location = currentFlyer.location;
+        const wanneer = [date, time && `om ${time}`].filter(Boolean).join(' ');
+        const waar = location ? ` in ${location}` : '';
+        const shareText = `🎶 Van harte uitgenodigd voor "${title}"${wanneer ? ` op ${wanneer}` : ''}${waar}. Gemengd koor Met Hart en Stem hoopt je daar te ontmoeten! Meer info: https://concerten.methartenstem-veenendaal.nl`;
         if (navigator.canShare && navigator.canShare({ files: [file] })) {
           await navigator.share({
             files: [file],
-            title: `Flyer — ${title}`,
-            text: `Flyer: ${title}`
+            title: `${title} – Met Hart en Stem`,
+            text: shareText
           });
           return;
         }
@@ -1391,7 +1398,7 @@
     document.addEventListener('click', (e) => {
       const thumb = e.target.closest('.agenda-flyer-thumb');
       if (thumb) {
-        openFlyerModal(thumb.dataset.flyer, thumb.dataset.flyerTitle);
+        openFlyerModal(thumb.dataset.flyer, thumb.dataset.flyerTitle, thumb.dataset.flyerDate, thumb.dataset.flyerTime, thumb.dataset.flyerLocation);
       }
     });
     if (flyerModal) {
