@@ -26,10 +26,10 @@ Bezoekers vinden hier eenvoudig:
 > Voeg hieronder screenshots toe van de website
 
 ### Homepage
-![Homepage](programma/images/screenshot-home.png)
+![Homepage](images/screenshot-home.png)
 
 ### Concertpagina
-![Concertpagina](programma/images/screenshot-concert.png)
+![Concertpagina](images/screenshot-concert.png)
 
 ---
 
