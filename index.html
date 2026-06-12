@@ -1019,6 +1019,33 @@
     };
   }
 
+  function getConcertStartDateTime(concert) {
+    if (!concert || !concert.date) return null;
+    const { y, m, d } = parseDateParts(concert.date);
+    const { hours, minutes } = parseTime(concert.tijd);
+    const start = new Date(y, m - 1, d, hours, minutes, 0, 0);
+    return Number.isNaN(start.getTime()) ? null : start;
+  }
+
+  function isConcertInLiveWindow(concert, now = new Date()) {
+    const start = getConcertStartDateTime(concert);
+    if (!start) return false;
+
+    const windowStart = new Date(start.getTime() - 60 * 60 * 1000);
+    const windowEnd = new Date(start.getTime() + 3 * 60 * 60 * 1000);
+    return now >= windowStart && now <= windowEnd;
+  }
+
+  function getCurrentLiveConcert(concerts, now = new Date()) {
+    return (concerts || [])
+      .filter(c => isConcertInLiveWindow(c, now))
+      .sort((a, b) => {
+        const aStart = getConcertStartDateTime(a);
+        const bStart = getConcertStartDateTime(b);
+        return (aStart ? aStart.getTime() : 0) - (bStart ? bStart.getTime() : 0);
+      })[0] || null;
+  }
+
   function buildCalendarLinks(concert) {
     const { y, m, d } = parseDateParts(concert.date);
     const { hours, minutes } = parseTime(concert.tijd);
@@ -1474,13 +1501,12 @@
       return;
     }
 
-    const today = todayStr();
-    const todayConcert = concerts.find(c => c.date === today);
+    const currentLiveConcert = getCurrentLiveConcert(concerts);
 
-    if (todayConcert) {
+    if (currentLiveConcert) {
       setPageMode(true);
-      showLive(todayConcert);
-      showAgenda(concerts, { minDate: today, showEmptyState: false, compact: true });
+      showLive(currentLiveConcert);
+      showAgenda(concerts, { minDate: currentLiveConcert.date, showEmptyState: false, compact: true });
     } else {
       setPageMode(false);
       showAgenda(concerts);
