@@ -170,6 +170,28 @@
       border: none;
     }
 
+    .stream-link-panel {
+      border: 1px solid var(--line);
+      border-top: none;
+      background: linear-gradient(180deg, #f8fbff, #f4f8fc);
+      padding: 1.25rem;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+
+    .stream-link-panel h3 {
+      font-family: 'Fraunces', serif;
+      font-size: 1.12rem;
+      color: #11253f;
+      margin-bottom: 0.35rem;
+    }
+
+    .stream-link-panel p {
+      font-size: 0.86rem;
+      color: var(--ink-soft);
+      margin-bottom: 0.8rem;
+    }
+
     .action-cards {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -874,6 +896,12 @@
       </iframe>
     </div>
 
+    <div id="stream-link-panel" class="stream-link-panel" style="display:none;">
+      <h3>Livestream openen</h3>
+      <p>Open de stream in een nieuw venster.</p>
+      <a id="stream-link" href="#" target="_blank" rel="noopener noreferrer" class="btn btn-gold">Open livestream</a>
+    </div>
+
     <div class="action-cards">
       <!-- Betaalverzoek -->
       <div class="action-card" id="payment-card">
@@ -1096,6 +1124,10 @@
     return (concert && concert.stream_url) || '';
   }
 
+  function prefersExternalStream(concert) {
+    return !!(concert && concert.stream_link_only);
+  }
+
   function renderCollecteQr(elementId, url) {
     const holder = document.getElementById(elementId);
     if (!holder) return;
@@ -1137,8 +1169,12 @@
   function scrollToLiveStream(event) {
     if (event) event.preventDefault();
     const streamWrapper = document.querySelector('.stream-wrapper');
-    if (!streamWrapper || streamWrapper.style.display === 'none') return;
-    streamWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const streamLinkPanel = document.getElementById('stream-link-panel');
+    const target = (streamWrapper && streamWrapper.style.display !== 'none')
+      ? streamWrapper
+      : ((streamLinkPanel && streamLinkPanel.style.display !== 'none') ? streamLinkPanel : null);
+    if (!target) return;
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   // ── Show live stream ──────────────────────────────────────
@@ -1148,18 +1184,31 @@
     document.getElementById('concert-time').textContent = concert.tijd || '';
 
     const streamUrl = resolveStreamUrl(concert);
+    const useExternalStream = prefersExternalStream(concert);
     const liveDot = document.getElementById('live-dot');
     const streamWrapper = document.querySelector('.stream-wrapper');
     const streamIframe = document.getElementById('stream-iframe');
+    const streamLinkPanel = document.getElementById('stream-link-panel');
+    const streamLink = document.getElementById('stream-link');
 
     if (streamUrl) {
       if (liveDot) liveDot.style.display = 'inline-block';
-      if (streamWrapper) streamWrapper.style.display = 'block';
-      if (streamIframe) streamIframe.src = streamUrl;
+      if (useExternalStream) {
+        if (streamWrapper) streamWrapper.style.display = 'none';
+        if (streamIframe) streamIframe.src = '';
+        if (streamLink) streamLink.href = streamUrl;
+        if (streamLinkPanel) streamLinkPanel.style.display = 'block';
+      } else {
+        if (streamWrapper) streamWrapper.style.display = 'block';
+        if (streamIframe) streamIframe.src = streamUrl;
+        if (streamLinkPanel) streamLinkPanel.style.display = 'none';
+      }
     } else {
       if (liveDot) liveDot.style.display = 'none';
       if (streamWrapper) streamWrapper.style.display = 'none';
       if (streamIframe) streamIframe.src = '';
+      if (streamLinkPanel) streamLinkPanel.style.display = 'none';
+      if (streamLink) streamLink.href = '#';
     }
 
     // Collectes
