@@ -37,7 +37,12 @@
     "date": "2026-10-31",
     "title": "Hervormingsconcert",
     "tijd": "19:30",
-    "locatie": "n.n.b."
+    "locatie": "Adventkerk Veenendaal",
+    "stream_url_encoded": "aHR0cHM6Ly9rZXJrZGllbnN0Z2VtaXN0Lm5sL3N0cmVhbXMvMTUyMDk3Ny9lbWJlZD9hY2Nlc3Nfa2V5PUdnYl9HRHByQkx5OW93",
+    "collecte_goed_doel_url": "https://betaalverzoek.rabobank.nl/betaalverzoek/?id=zQ4-HXnfS_mQEWkuTpf19w",
+    "collecte_goed_doel_ten_bate_van": "Deputaatschap Bijbelverspreiding",
+    "programmaboekje_pdf": "programma/20261031.pdf",
+    "flyer": "flyer/20261031.jpg"
   },
   {
     "date": "2026-12-12",
@@ -52,5 +57,11 @@
     "tijd": "19:30",
     "locatie": "Adventkerk Veenendaal",
     "stream_url_encoded": "aHR0cHM6Ly9rZXJrZGllbnN0Z2VtaXN0Lm5sL3N0cmVhbXMvMTUyMDk3Ny9lbWJlZD9hY2Nlc3Nfa2V5PUdnYl9HRHByQkx5OW93"
+  },
+  {
+    "date": "2027-05-29",
+    "title": "Slotconcert",
+    "locatie": "Oude Kerk Lunteren",
+    "collecte_goed_doel_ten_bate_van": "Stichting DENBI"
   }
 ]
